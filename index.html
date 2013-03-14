@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Vimerito Demille by Benni225</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Vimerito Demille</h1>
+          <h2>The easy to use microframework. The one under thousand.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/Benni225/vimerito-2.4-demille/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/Benni225/vimerito-2.4-demille/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/Benni225/vimerito-2.4-demille" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>Vimerito 2.4 Demille</h1>
+
+<p>Vimerito Demille is a lightweight php framework for PHP.</p>
+
+<ul>
+<li>It's easy</li>
+<li>It's fast</li>
+<li>Is's flexible</li>
+</ul><p>Some features of Vimerito Demille</p>
+
+<ul>
+<li>model-view-controller-paradigm</li>
+<li>Authentification</li>
+<li>MySql-databases</li>
+<li>JavaScript-support</li>
+<li>Assets</li>
+<li>support for different templateengines</li>
+<li>Layout</li>
+<li>Session</li>
+<li>...</li>
+</ul><h2>How using it</h2>
+
+<p>Creating a controller:</p>
+
+<p>Create the file my.php in the folder <code>app/controller</code> and type in</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">class</span> <span class="nc">Controller_my</span><span class="p">{</span>
+
+<span class="p">}</span>
+</pre></div>
+
+<p>Now, you can write your "actions". Actions are methods who will be 
+public for the user. "indexAction" is the default action of 
+every controller. If the call the site <em><a href="http://www.your-site.com/my">http://www.your-site.com/my</a></em> will 
+call your Controller_my-class and the indexAction.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> 
+<span class="k">class</span> <span class="nc">Controller_my</span><span class="p">{</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="s1">'Welcome on my new site!'</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Now, the user will see the text "Welcome on my new site!"
+Every action has the suffix "Action".</p>
+
+<p>If you want to use templates and the layout you need only an adapter for 
+your favourite templateengine. At the moment the default templateengine is
+RainTPL.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> 
+<span class="k">class</span> <span class="nc">Controller_my</span><span class="p">{</span>
+  <span class="k">public</span> <span class="nv">$layout</span> <span class="o">=</span> <span class="s2">"layout.php"</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(){</span>
+    <span class="nv">$view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">View</span><span class="p">(</span><span class="k">new</span> <span class="nx">RainTplAdapter</span><span class="p">);</span>
+    <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s2">"myview.php"</span><span class="p">);</span>
+    <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">"Welcome to my new site!"</span><span class="p">);</span>
+    <span class="nx">Layout</span><span class="o">::</span><span class="na">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$view</span><span class="p">,</span> <span class="s2">"#content"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Have you noticed the attribute <code>$layout</code>? The value of this 
+attribute is a templatefile outgoning from the folder <em>app/view</em>.
+When we add the view to the layout we have to specify in which 
+HTML-element the result of our view copied. This we do with a CSS-selector
+like in jQuery (<code>#content</code> is an element with the id "content").</p>
+
+<p>If you don't want to use the layout, you have to return the render-result of your
+template.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> 
+<span class="k">class</span> <span class="nc">Controller_my</span><span class="p">{</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(){</span>
+    <span class="nv">$view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">View</span><span class="p">(</span><span class="k">new</span> <span class="nx">RainTplAdapter</span><span class="p">);</span>
+    <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s2">"myview.php"</span><span class="p">);</span>
+    <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">"Welcome to my new site!"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$view</span><span class="o">-</span><span class="nx">render</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>If you want to use the authentification-feature you have to configure the file
+<em>boot.php</em>. All the configuration of your project will placed here. </p>
+
+<div class="highlight"><pre> <span class="o">...</span>
+    <span class="s1">'authTable'</span> <span class="o">=&gt;</span>  <span class="s1">'user'</span><span class="p">,</span>
+    <span class="s1">'authUsername'</span><span class="o">=&gt;</span><span class="s1">'username'</span><span class="p">,</span>
+    <span class="s1">'authPassword'</span><span class="o">=&gt;</span><span class="s1">'password'</span><span class="p">,</span>
+ <span class="o">...</span>
+</pre></div>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> 
+<span class="k">class</span> <span class="nc">Controller_my</span><span class="p">{</span>
+  <span class="k">public</span> <span class="nv">$layout</span> <span class="o">=</span> <span class="s2">"layout.php"</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(){</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">Auth</span><span class="o">::</span><span class="na">is</span><span class="p">()){</span>
+      <span class="nv">$view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">View</span><span class="p">(</span><span class="k">new</span> <span class="nx">RainTplAdapter</span><span class="p">);</span>
+      <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s2">"myview.php"</span><span class="p">);</span>
+      <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">"Welcome to my new site!"</span><span class="p">);</span>
+      <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="nx">User</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s2">"username"</span><span class="p">);</span>
+      <span class="nx">Layout</span><span class="o">::</span><span class="na">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$view</span><span class="p">,</span> <span class="s2">"#content"</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+      <span class="nv">$view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">View</span><span class="p">(</span><span class="k">new</span> <span class="nx">RainTplAdapter</span><span class="p">);</span>
+      <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s2">"myview.php"</span><span class="p">);</span>
+      <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">"You are not welcome!"</span><span class="p">);</span>
+      <span class="nx">Layout</span><span class="o">::</span><span class="na">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$view</span><span class="p">,</span> <span class="s2">"#content"</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>After the authentification you have the possibility to 
+use the class <code>User</code> to get all information of the user, which saved in 
+the databasetable.</p>
+
+<p>For loging a user in use the method <code>Auth::login($username, md5($password))</code>.
+For loging out use <code>Auth::logout()</code> </p>
+
+<p>To bind in a JavaScript-file use <code>JavaScript::add($url)</code> and call it somewhere
+in your script (in the <em>boot.php</em> or in your actions) that method</p>
+
+<div class="highlight"><pre>  <span class="o">...</span>
+  <span class="nx">JavaScript</span><span class="o">::</span><span class="na">add</span><span class="p">(</span><span class="nx">Url</span><span class="o">::</span><span class="na">asset</span><span class="p">(</span><span class="s1">'myscript.js'</span><span class="p">));</span>
+  <span class="o">...</span>
+</pre></div>
+
+<p>The class <code>Url</code> helps you to clean your code. <code>Url::asset</code> returns URLs to
+files in the folder <em>public</em> <code>Url::to</code> creates links to other controllers and actions</p>
+
+<div class="highlight"><pre>  <span class="o">...</span>
+  <span class="nx">Url</span><span class="o">::</span><span class="na">to</span><span class="p">(</span><span class="s2">"my@nextside"</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s2">"parameter1"</span><span class="o">=&gt;</span><span class="s2">"value1"</span><span class="p">,</span> <span class="s2">"parameter2"</span><span class="o">=&gt;</span><span class="s2">"value2"</span><span class="p">));</span>
+  <span class="o">...</span>
+</pre></div>
+
+<p>This will create the URL:
+<a href="http://www.my-site.com/my/nextside/parameter1/value1/parameter2/value2">http://www.my-site.com/my/nextside/parameter1/value1/parameter2/value2</a>
+and calls the class <code>Controller_my</code> and the action <code>nextsideAction</code>.</p>
+
+<p>If you want that your site returns a JSON-ressource  use the class <code>Json</code></p>
+
+<div class="highlight"><pre>  <span class="o">...</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">myjsonAction</span><span class="p">(){</span>
+    <span class="nv">$result</span> <span class="o">=</span> <span class="k">Array</span><span class="p">(</span>
+      <span class="s1">'parameter1'</span> <span class="o">=&gt;</span> <span class="s1">'value1'</span><span class="p">,</span>
+      <span class="s1">'parameter2'</span> <span class="o">=&gt;</span> <span class="s1">'value2'</span> 
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="nx">Json</span><span class="o">::</span><span class="na">returnJson</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="o">...</span>
+</pre></div>
+
+<p>So far. If you have questions, don't be afraid: ask!</p>
+
+<h2>Plans for the future </h2>
+
+<ul>
+<li>[ ] Add an ORM</li>
+<li>[ ] Support for more templateengines</li>
+<li>[ ] A more flexible output-class</li>
+<li>[ ] A more flexible session-class</li>
+</ul><p>We need help. Help us to make Vimerito Demille better.</p>
+        </section>
+
+        <footer>
+          Vimerito Demille is maintained by <a href="https://github.com/Benni225">Benni225</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>

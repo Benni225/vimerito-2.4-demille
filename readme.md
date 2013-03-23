@@ -4,7 +4,7 @@ Vimerito Demille is a lightweight php framework for PHP.
 
 * It's easy
 * It's fast
-* Is's flexible
+* It's flexible
 
 Some features of Vimerito Demille
 * model-view-controller-paradigm
@@ -31,8 +31,8 @@ class Controller_my{
 
 Now, you can write your "actions". Actions are methods who will be 
 public for the user. "indexAction" is the default action of 
-every controller. If the call the site *http://www.your-site.com/my* will 
-call your Controller_my-class and the indexAction.
+every controller. If the user call the site *http://www.your-site.com/my* Vimerito will 
+call the Controller_my-class and the action indexAction.
 
 ```php
 <?php 
@@ -130,12 +130,12 @@ files in the folder *public* `Url::to` creates links to other controllers and ac
 
 ```php
   ...
-  Url::to("my@nextside", array("parameter1"=>"value1", "parameter2"=>"value2"));
+  Url::to("my@nextsite", array("parameter1"=>"value1", "parameter2"=>"value2"));
   ...
 ```
 This will create the URL:
-http://www.my-site.com/my/nextside/parameter1/value1/parameter2/value2
-and calls the class `Controller_my` and the action `nextsideAction`.
+http://www.my-site.com/my/nextsite/parameter1/value1/parameter2/value2
+and calls the class `Controller_my` and the action `nextsiteAction`.
 
 If you want that your site returns a JSON-ressource  use the class `Json`
 

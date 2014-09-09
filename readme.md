@@ -216,8 +216,62 @@ Use models:
   return Json::returnJson($findUser->toArray());
   ...
 ```
+Add a new Table userprofile
+```php
+  ...
+  //create  a mysql-table
+  CREATE TABLE profile(
+    `id` INT(32) PRIMARY KEY AUTO_INCREMENT,
+    `userId` INT(32),
+    `name` VARCHAR(20),
+    `firstname` VARCHAR(20),
+    `address` VARCHAR(50)
+  )
+  
+    CREATE TABLE posts(
+    `id` INT(32) PRIMARY KEY AUTO_INCREMENT,
+    `profileId` INT(32),
+    `title` VARCHAR(20),
+    `text` VARCHAR(20),
+    `date` TIMESTAMP
+  )
+  ...
+  
+  //Create the profilemodel in app/model/profile.php
+   class Model_profile extends Model{
+  	public function __construct(){
+  		$this->tablename = "profile";
+  		//load all posts
+  		$this->hasMany("posts");
+  	}
+  }
+  
+  //Create the postsmodel in app/model/posts.php
+   class Model_ extends Model{
+  	public function __construct(){
+  		$this->tablename = "profile";
+  	}
+  }
+  
+  //Change the usermodel
+  class Model_user extends Model{
+    public function __construct(){
+    	$this->table = "user";
+    	//loads the profile
+    	$this->hasOne("profile");
+    }
+  }
+  
+  ...
+  $user = new Model_user;
+  $user->where_id_is(13)->exec();
+  echo $user->profile->firstname."<br /><br />";
+  for($i = 0; $i < $user->profile->posts->resultCount; $i++){
+  	echo $user->profile->posts->title."<br />";
+  }
+```
 
-Use JSON
+
 
 
 So far. If you have questions, don't be afraid: ask!

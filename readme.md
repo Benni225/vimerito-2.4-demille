@@ -221,9 +221,7 @@ So far. If you have questions, don't be afraid: ask!
 
 Plans for the future 
 --------------------
-- [ ] Add an ORM
 - [ ] Support for more templateengines
-- [ ] A more flexible output-class
 - [ ] A more flexible session-class
 
 We need help. Help us to make Vimerito Demille better.

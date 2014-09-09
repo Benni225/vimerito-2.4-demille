@@ -216,7 +216,7 @@ Use models:
   return Json::returnJson($findUser->toArray());
   ...
 ```
-Add a new Table userprofile
+Add a new table profile and posts
 ```php
   ...
   //create  a mysql-table
@@ -247,7 +247,7 @@ Add a new Table userprofile
   }
   
   //Create the postsmodel in app/model/posts.php
-   class Model_ extends Model{
+   class Model_posts extends Model{
   	public function __construct(){
   		$this->tablename = "profile";
   	}

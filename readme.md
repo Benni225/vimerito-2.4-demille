@@ -56,6 +56,9 @@ class Controller_my{
   	$view = new View(new RainTplAdapter);
   	$view->load("myview.php");
   	$view->assign("text", "Welcome to my new site!");
+  	//Set the pagetitle
+  	Layout::get()->setTitle("My new page");
+  	//Insert your view the layout
   	Layout::get()->add($view, "#content");
   }
 }

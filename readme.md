@@ -29,7 +29,7 @@ class Controller_my{
 }
 ```
 
-Now, you can write your "actions". Actions are methods who will be 
+Now, you can write your "actions". Actions are methods which will be 
 public for the user. "indexAction" is the default action of 
 every controller. If the user call the site *http://www.your-site.com/my* Vimerito will 
 call the Controller_my-class and the action indexAction.
@@ -60,11 +60,11 @@ class Controller_my{
   }
 }
 ```
-Have you noticed the attribute `$layout`? The value of this 
+Do you noticed the attribute `$layout`? The value of this 
 attribute is a templatefile outgoning from the folder *app/view*.
 When we add the view to the layout we have to specify in which 
-HTML-element the result of our view copied. This we do with a CSS-selector
-like in jQuery (`#content` is an element with the id "content").
+HTML-element the result of our view copied. You specify it with a CSS-selector
+like in querySelector or jQuery in JavaScript (`#content` is an element with the id "content").
 
 If you don't want to use the layout, you have to return the render-result of your
 template.
@@ -146,10 +146,76 @@ If you want that your site returns a JSON-ressource  use the class `Json`
       'parameter1' => 'value1',
       'parameter2' => 'value2' 
     );
-    return Json::returnJson($result);
+    return Json::returnJson($result, true);
   }
   ...
 ```
+Use models:
+```php
+  ...
+  //create  a mysql-table
+  CREATE TABLE user(
+    `id` INT(32) PRIMARY KEY AUTO_INCREMENT
+    `email` VARCHAR(50),
+    `username` VARCHAR(20),
+    `password` VARCHAR(50)
+  )
+  ...
+  //create a new file "app/model/user.php"
+  <?php
+  class Model_user extends Model{
+    public function __construct(){
+    	$this->table = "user";
+    }
+  }
+  
+  
+  //Use your model in your controler
+  ...
+  $myUser = new Model_user;
+  //Find a user with the ID 12
+  $myUser->where_id_is("12")->exec();
+  
+  $newUser = new Model_user;
+  $newUser->id = 13;
+  $newUser->username = "Gustav";
+  $newUser->email = "gustav@hotmail.com";
+  $newUser->password = md5("gustavpassword");
+  $newUser->save();
+  $newUser->insert()->exec();
+  
+  $updateUser = new Model_user;
+  $updateUser->id = 13;
+  $updateUser->username = "Gustav";
+  $updateUser->password = md5("new_gustavpassword");
+  //update by ID 13
+  $updateUser->update()->exec();
+  //or update by username
+  $updateUser->update("username")->exec();
+  
+  //find Gustav by email an password
+  $findUser = new Model_user;
+  $findUser->where_email_is("gustav@hotmail.com")->andWhere_password_is(md5("new_gustavpassword"))->exec();
+  
+  //echo username
+  echo $findUser->username;
+  
+  //find all user ordered by username
+  $findUser->all()->orderBy("username", "DESC")->exec();
+  
+  //run through the model
+  for($i = 0; $i < $findUser->resultCount; $i++){
+  	echo $username."<br />";
+  	$findUser->next();
+  }
+  
+  //return your users as a JSON
+  return Json::returnJson($findUser->toArray());
+  ...
+```
+
+Use JSON
+
 
 So far. If you have questions, don't be afraid: ask!
 

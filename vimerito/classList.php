@@ -1,6 +1,6 @@
 <?php
 $__classList = Array(
-	'Vimerito'=>'vimerito/vimerito.php',
+	'vimerito'=>'vimerito/vimerito.php',
 	'Application'=>'vimerito/core/Application',
 	'DataRegistry'=>'vimerito/core/DataRegistry',
 	'ExceptionMySql'=>'vimerito/core/ExceptionMySql',
@@ -30,6 +30,7 @@ $__classList = Array(
 	'FileData'=>'vimerito/datahandler/FileData',
 	'Layout'=>'vimerito/core/Layout',
 	'Query'=>'vimerito/database/Query',
+	'Model'=>'vimerito/database/Model',
 	'Database'=>'vimerito/database/mysql/Database',
 	'Driver'=>'vimerito/database/mysql/Driver',
 	'Session'=>'vimerito/core/Session',
@@ -43,6 +44,7 @@ $__classList = Array(
 	'JavaScript'=>'vimerito/core/JavaScript',
 	'Response'=>'vimerito/core/Response',
 	'Json'=>'vimerito/core/Json',
+	'Lang'=>'vimerito/core/Lang',
 	/**
 	 * RainTPL
 	 * GNU LESSER GENERAL PUBLIC LICENSE

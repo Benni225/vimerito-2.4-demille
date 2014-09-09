@@ -5,6 +5,7 @@ class View{
 	 * @var aViewAdapter
 	 */
 	private $adapter;
+	private $defaultAdapter = Null;
 	/**
 	 * Includes all methods of View
 	 * @var array
@@ -18,8 +19,17 @@ class View{
 	public function __call($method, $args){
 		return in_array($method, $this->methods)?$this->{$method}($args):$this->adapter->{$method}($args);
 	}
-	public function __construct(aViewAdapter $adapter){
-		$this->adapter = $adapter;
+	public function __construct(aViewAdapter $adapter = Null){
+		if($adapter != Null)
+			$this->adapter = $adapter;
+		else{
+			$__a = Config::get('defaultAdapter');
+			if(!empty($__a)){
+				$this->adapter = new $__a;
+			}else{
+				throw('No adapter is given for View');
+			}
+		}
 		return $this->adapter;
 	}
 

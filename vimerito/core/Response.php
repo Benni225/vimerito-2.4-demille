@@ -27,7 +27,10 @@ class  Response{
 
 	public static function buildHeader(){
 		foreach(static::$headers AS $header){
-			header("{$header[0]}:{$header[1]}", $header[2]|FALSE);
+			if(count($header) == 3)
+				header("{$header[0]}:{$header[1]}", $header[2]);
+			else
+				header("{$header[0]}:{$header[1]}");
 		}
 	}
 

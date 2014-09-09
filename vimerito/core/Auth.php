@@ -29,6 +29,7 @@ class Auth{
 	public static function login($username, $password){
 		Session::set("__username", $username);
 		Session::set("__password", $password);
+		Session::save();
 		$r = static::is(TRUE);
 		return $r;
 	}

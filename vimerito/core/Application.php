@@ -3,7 +3,7 @@
  * Manage the application. Runs the router, stores data from GET and POST
  *
  * @author Benjamin Werner
- * @version 0.2
+ * @version 0.0.2
  *
  */
 class Application extends aSingleton{
@@ -51,15 +51,19 @@ class Application extends aSingleton{
 		Package::addPackage("model", "app/model/", new PackageData());
 		Package::addPackage("cache", "app/cache/", new PackageData());
 		Package::addPackage("public", "public/", new PackageData());
+		Package::addPackage("vimerito", "vimerito/", new PackageData());
 
 		ob_start();
+
+		Router::create()->route();
+
 		//Initialize the app
 		require_once Package::get("app")."boot.php";
 
-		Router::create()->route();
 		self::setController(Router::get()->controller());
 		self::setAction(Router::get()->action());
 		self::storeData();
+
 		if(self::$instance === NULL){
 			self::$instance = new self;
 		}
@@ -95,6 +99,7 @@ class Application extends aSingleton{
 							Response::addHeader(array("Location", Url::to("{$output["controller"]}@{$output["action"]}", $output["parameters"])));
 							break;
 						case "json":
+							//Response::addHeader(array("Content-type", "application/json"));
 							Response::setContent($output["content"]);
 							break;
 					}
@@ -172,7 +177,7 @@ class Application extends aSingleton{
 	}
 
 	public static function development($flag = NULL){
-		if(empty($flag)){
+		if($flag === NULL){
 			return self::$developmentMode;
 		}else{
 			self::$developmentMode = $flag;

@@ -1,9 +1,8 @@
 <?php
 /**
  * Routes to a in the URI specified controller and action and extractes
- * given parameters and values.
+ * Given parameters and values.
  * @author Benjamin Werner
- * @version 0.5
  */
 class Router extends aSingleton{
 	protected static $instance = NULL;
@@ -42,6 +41,7 @@ class Router extends aSingleton{
 	/**
 	 * Extractes the controller and the action out of the
 	 * URI and the parameters with their values.
+	 * @since 0.0.1
 	 * @version 0.0.1 failure removed: instead of division it has to use modulo
 	 */
 	public function route(){
@@ -167,32 +167,20 @@ class Router extends aSingleton{
 		}
 		return NULL;
 	}
-	/**
-	 * Returns all router-parameters as an array
-	 */
+
 	public static function getParameters(){
 		return self::$parameters;
 	}
-	/**
-	 * Checks if a  specified parameter exists. Return true or false.
-	 * @param BOOL
-	 */
+
 	public function hasParameter($parameter){
 		return array_key_exists($parameter, self::$urlData)?TRUE:FALSE;
 	}
-	/**
-	 * Retruns the value of a specified parameter. If the
-	 * parameter does not exist this method returns NULL.
-	 * @param mixed
-	 */
+
 	public function getParameter($parameter){
 		return $this->hasParameter($parameter)?self::$urlData[$parameter]:NULL;
 	}
-	/**
-	 * Manipulates the parameters. An array has to be given.
-	 * @param none
-	 */
-	public static function setParameters(Array $parameters){
+
+	public static function setParameters($parameters){
 		self::$urlData = $parameters;
 	}
 }

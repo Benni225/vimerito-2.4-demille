@@ -5,7 +5,7 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	 * Is the stack. It filled with the current array of the ressource.
 	 * @var array
 	 */
-	private $__current = array();
+	protected $__current = array();
 	/**
 	 *
 	 * Internal counter
@@ -26,11 +26,15 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	 * @param string $name
 	 */
 	public function __get($name){
-		if(key_exists((string)$name, $this->__current)){
-			return $this->__current[(string)$name];
-		}else{
-			throw new Exception("Property does not exist.");
-			return NULL;
+		try{
+			if(array_key_exists((string)$name, $this->__current)){
+				return $this->__current[(string)$name];
+			}else{
+				throw new Exception("Property '{$name}' does not exist.");
+				return NULL;
+			}
+		}catch(Exception $e){
+			return Null;
 		}
 	}
 	/**
@@ -98,7 +102,21 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	 * Returns the current array of the ressource.
 	 */
 	public function get(){
-		return current($this->ressource);
+		return $this->__current;
+	}
+
+	public function toArray(){
+		$array = $this->ressource;
+		$n = array();
+		for($i = 0; $i < count($array); $i++){
+			if(is_array($array[$i])){
+				foreach($array[$i] AS $index => $value){
+					$n[$index] = is_object($value)?$value->toArray():$value;
+				}
+			}else
+				$n[] = $i;
+		}
+		return $n;
 	}
 	/**
 	 * (non-PHPdoc)
@@ -122,10 +140,11 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	 */
 	public function save(){
 		if(!empty($this->__current)){
-			$array = current($this->ressource);
-			foreach($this->__current AS $key=>$value){
-				$this->ressource[$this->__counter][$key] = $value;
-			}
+			if(empty($this->ressource))
+				$this->ressource = array();
+			if(empty($this->__counter))
+				$this->__counter = 0;
+			$this->ressource[$this->__counter] = $this->__current;
 		}
 		return $this;
 	}
@@ -135,6 +154,18 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	 */
 	public function getRessource(){
 		return $this->ressource;
+	}
+	/**
+	*  Add a new stack to the ressource.
+	*  @return object
+	*/
+	public function add(){
+		if($this->ressource == NULL){
+			$this->ressource = array();
+		}
+		$this->ressource[] = array();
+		$this->last();
+		return $this;
 	}
 	/**
 	 *
@@ -171,7 +202,7 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	 *			"key3"	=>	"value9"
 	 *		)
 	 *	));
-	 *	$a->each(function($index, $value){
+	 *	$a->each(function($index, $value)){
 	 *		echo $index." = ".$value."<br />";
 	 *	});
 	 *	$a->each(function($index, $value, $text){
@@ -188,21 +219,21 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	public function each($callback, $additionalData = NULL){
 		$rFunction = new ReflectionFunction($callback);
 		$numberOfParameters = $rFunction->getNumberOfParameters();
-		echo "Ressource: <br />";
-		var_dump($this->ressource);
-		echo "<br /><br />";
-		foreach($this->ressource AS $index=>$value){
+		$this->first();
+		for($i = 0; $i < count($this->ressource); $i++){
 			if($numberOfParameters == 1)
-				call_user_func($callback, $value);
-			elseif($numberOfParameters == 2)
-				call_user_func($callback, $index, $value);
-			else{
-				$data = array($index, $value);
+				call_user_func($callback, $a[$i]);
+			elseif($numberOfParameters == 2){
+				echo "Index: ".key($this->__current);
+				call_user_func($callback, key($this->__current), $this->__current[key($this->__current)]);
+			}else{
+				$data = array(key($a[$i]), $a[$i]);
 				if($additionalData != NULL){
 					array_push($data, $additionalData);
 				}
 				call_user_func_array($callback, $data);
 			}
+			$this->next();
 		}
 		return $this;
 	}
@@ -246,5 +277,13 @@ class AssoziativArrayIterator extends aIterator implements iIterator{
 	*/
 	public function returnKey(){
 		return key($this->ressource);
+	}
+
+	/**
+	*	Return the number of values in ressource.
+	*	@return int
+	*/
+	public function getCount(){
+		return count($this->ressource);
 	}
 }

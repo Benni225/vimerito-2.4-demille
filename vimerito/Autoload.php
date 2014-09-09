@@ -7,7 +7,7 @@ class Autoload{
 	 * @author Benjamin Werner
 	 * @param String $classname
 	 */
-	public static function	load($classname){
+	public static function	load($classname){#
 		if(self::checkClassList($classname)){
 			self::load(self::getClassname($classname));
 		}else{
